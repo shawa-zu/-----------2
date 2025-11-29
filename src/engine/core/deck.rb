@@ -20,6 +20,17 @@ module Engine
         drawn.compact
       end
 
+      def take_top
+        draw(1).first
+      end
+
+      def return_and_shuffle(cards)
+        return if cards.nil? || cards.empty?
+
+        @cards.concat(cards)
+        shuffle
+      end
+
       def search(condition)
         # condition はブロックまたは条件オブジェクト
         found = @cards.find { |card| condition.call(card) if condition.respond_to?(:call) }
@@ -41,6 +52,10 @@ module Engine
 
       def add(card)
         @cards << card
+      end
+
+      def remove(card)
+        @cards.delete(card)
       end
     end
   end

@@ -11,11 +11,35 @@ module Engine
       end
 
       def add(card)
-        @cards << card
+        @cards << card if card
+      end
+
+      def add_many(cards)
+        Array(cards).each { |card| add(card) }
       end
 
       def remove(card)
         @cards.delete(card)
+      end
+
+      def clear
+        @cards.clear
+      end
+
+      def select_monsters(&block)
+        @cards.select { |card| card.is_a?(Card::Monster) && (block.nil? || block.call(card)) }
+      end
+
+      def basic_monsters
+        select_monsters(&:basic?)
+      end
+
+      def has_basic?
+        !basic_monsters.empty?
+      end
+
+      def delete_at(index)
+        @cards.delete_at(index)
       end
 
       def sorted_cards
@@ -38,6 +62,10 @@ module Engine
 
       def empty?
         @cards.empty?
+      end
+
+      def each(&block)
+        @cards.each(&block)
       end
     end
   end
