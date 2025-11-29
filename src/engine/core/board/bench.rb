@@ -21,8 +21,19 @@ module Engine
           true
         end
 
+        def add_slot(slot)
+          return false if full?
+
+          @slots << slot
+          true
+        end
+
         def remove(index)
           @slots.delete_at(index) if index >= 0 && index < @slots.size
+        end
+
+        def remove_slot(slot)
+          @slots.delete(slot)
         end
 
         def get(index)
@@ -39,6 +50,14 @@ module Engine
 
         def size
           @slots.size
+        end
+
+        def any?
+          !@slots.empty?
+        end
+
+        def each(&block)
+          @slots.each(&block)
         end
       end
     end
